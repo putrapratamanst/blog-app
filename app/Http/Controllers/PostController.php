@@ -48,8 +48,10 @@ class PostController extends Controller
         ]);
 
         // Handle image upload
-        $imagePath = $request->file('image')->store('images', 'public');
-
+        $file = $request->file('image');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images'), $filename);
+    
         // Generate slug from title
         $slug = Str::slug($request->input('title'));
        
@@ -60,7 +62,7 @@ class PostController extends Controller
             'meta_title' => $request->input('meta_title'),
             'author' => Auth::id(),
             'content' => $request->input('content'),
-            'image' => $imagePath,
+            'image' => $filename,
             'status' => $request->input('status'),
             'category_id' => $request->input('category_id'),
         ]);
