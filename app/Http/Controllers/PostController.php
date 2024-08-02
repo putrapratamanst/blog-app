@@ -6,6 +6,7 @@ use App\DataTables\PostDataTable;
 use App\Models\Category;
 use App\Models\Post;
 use App\Services\PostService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -48,50 +49,66 @@ class PostController extends Controller
         ]);
 
         // Handle image upload
-        $file = $request->file('image');
-        $filename = time() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('images'), $filename);
-    
+        $imagePath = $request->file('image')->store('uploads', 'public');
+
         // Generate slug from title
         $slug = Str::slug($request->input('title'));
-       
-        // Create new post
-        Post::create([
-            'title' => $request->input('title'),
-            'slug' => $slug,
-            'meta_title' => $request->input('meta_title'),
-            'author' => Auth::id(),
-            'content' => $request->input('content'),
-            'image' => $filename,
-            'status' => $request->input('status'),
-            'category_id' => $request->input('category_id'),
-        ]);
+
+        if ($request['status'] == "published"){
+            $request['published_at'] = Carbon::now();
+        }
+
+        $this->postService->createPost(
+            [
+                'title' => $request->input('title'),
+                'slug' => $slug,
+                'meta_title' => $request->input('meta_title'),
+                'author' => Auth::id(),
+                'content' => $request->input('content'),
+                'image' => $imagePath,
+                'status' => $request->input('status'),
+                'category_id' => $request->input('category_id'),
+                'published_at' => $request['published_at']
+            ]
+        );
 
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
 
     public function edit($id)
     {
+        $categories = Category::all(); // Get all categories
         $post = $this->postService->getPostById($id);
-        return view('posts.edit', compact('post'));
+        return view('posts.edit', compact(['post','categories']));
     }
 
     public function update(Request $request, $id)
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255',
             'meta_title' => 'nullable|string|max:255',
-            'author' => 'required|integer',
             'content' => 'required|string',
             'image' => 'nullable|string',
-            'published_at' => 'nullable|date',
             'status' => 'required|string',
             'category_id' => 'required|integer',
-            'tag' => 'nullable|string',
         ]);
 
-        $post = $this->postService->updatePost($id, $data);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('uploads', 'public');
+            $data['image'] = $imagePath;
+        }
+
+        die(json_encode($data));
+
+        // Generate slug from title
+        $slug = Str::slug($request->input('title'));
+
+        $data['slug'] = $slug;
+        if ($data['status'] == "published"){
+            $data['published_at'] = Carbon::now();
+        }
+        $this->postService->updatePost($id, $data);
         return redirect()->route('posts.index')->with('success', 'Post updated successfully');
     }
 

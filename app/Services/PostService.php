@@ -17,6 +17,11 @@ class PostService
         return $this->post->all();
     }
 
+    public function getAllPublishedPosts()
+    {
+        return $this->post->all()->where('status',"==", "published");
+    }
+
     public function getPostById($id)
     {
         return $this->post->findOrFail($id);

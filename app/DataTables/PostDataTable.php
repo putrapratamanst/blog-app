@@ -21,8 +21,12 @@ class PostDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'posts.action');
-    }
+            ->addColumn('action', function ($row) {
+                return '<a href="' . route('posts.edit', $row->id) . '" class="edit btn btn-primary btn-sm">Edit<i class="fa fa-edit"></i></a>
+                <a href="' . route('posts.edit', $row->id) . '" class="edit btn btn-primary btn-sm">Archive<i class="fa fa-edit"></i></a>';
+            })
+            ->rawColumns(['action']);
+        }
 
  
     /**
@@ -46,7 +50,6 @@ class PostDataTable extends DataTable
         return $this->builder()
                     ->setTableId('posts-table')
                     ->columns($this->getColumns())
-
                     ->minifiedAjax()
                     ->dom('Bfrtip')
                     ->orderBy(0)
@@ -58,7 +61,7 @@ class PostDataTable extends DataTable
                         Button::make('reload')
                     )
                     ->parameters([
-                        'pageLength' => 5, // Set the default page length here
+                        'pageLength' => 10 // Set the default page length here
                     ]);
     }
  
@@ -72,9 +75,8 @@ class PostDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('title'),
-            Column::make('content'),
+            Column::make('status'),
             Column::make('created_at'),
-            Column::make('updated_at'),
 
             Column::computed('action')
                   ->exportable(false)

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -14,13 +15,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[BlogController::class, 'index']);
 
 Route::get('/dashboard',[PostController::class, 'index'])->middleware(['auth', 'verified','role:admin'])->name('dashboard');
 Route::resource('posts', PostController::class)->middleware(['auth','role:admin']);
+Route::resource('blogs', BlogController::class);
 
 Route::middleware(['auth','role:admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
