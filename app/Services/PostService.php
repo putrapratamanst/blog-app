@@ -24,9 +24,22 @@ class PostService
         ->paginate($perPage);
     }
 
+    public function getPublishedPostsByCategory($perPage = 10, $categoryID)
+    {
+        return $this->post->where('status', 'published')
+            ->where('category_id',$categoryID)
+            ->orderBy('published_at', 'desc')
+            ->paginate($perPage);
+    }
+
     public function getPostById($id)
     {
         return $this->post->findOrFail($id);
+    }
+
+    public function getPostBySlug($slug)
+    {
+        return $this->post->where('slug', $slug)->firstOrFail();
     }
 
     public function createPost(array $data)

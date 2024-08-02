@@ -20,6 +20,8 @@ Route::get('/',[BlogController::class, 'index']);
 Route::get('/dashboard',[PostController::class, 'index'])->middleware(['auth', 'verified','role:admin'])->name('dashboard');
 Route::resource('posts', PostController::class)->middleware(['auth','role:admin']);
 Route::resource('blogs', BlogController::class);
+Route::get('blogs/category/{id}', [BlogController::class, 'showCategory'])->name('blogs.category');
+
 
 Route::middleware(['auth','role:admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -1,7 +1,4 @@
-<?php
-use Illuminate\Support\Str;
 
-?>
 @extends('layouts.main')
 @section('content')
 
