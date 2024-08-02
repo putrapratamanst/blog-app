@@ -17,9 +17,11 @@ class PostService
         return $this->post->all();
     }
 
-    public function getAllPublishedPosts()
+    public function getAllPublishedPosts($perPage = 10)
     {
-        return $this->post->all()->where('status',"==", "published");
+        return $this->post->where('status', 'published')
+        ->orderBy('published_at', 'desc')
+        ->paginate($perPage);
     }
 
     public function getPostById($id)

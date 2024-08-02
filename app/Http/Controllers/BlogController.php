@@ -14,7 +14,7 @@ class BlogController extends Controller{
 
     public function index()
     {
-        $posts = $this->postService->getAllPublishedPosts();
+        $posts = $this->postService->getAllPublishedPosts(3);
 
         return view('blogs.index', compact('posts'));
     }
