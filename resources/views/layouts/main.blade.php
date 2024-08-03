@@ -64,57 +64,31 @@
 
 						<div class="p-t-65">
 							<h4 class="mtext-112 cl2 p-b-33">
-								Featured Products
+								Featured Post
 							</h4>
 
 							<ul>
+                            @foreach ($randoms as $random)
+
 								<li class="flex-w flex-t p-b-30">
-									<a href="#" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
-										<img src="images/product-min-01.jpg" alt="PRODUCT">
+									<a href="{{ url('/blogs/' . $random->slug) }}" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
+										<img src="{{ url('storage/'.$random->image) }}" alt="PRODUCT" width="100px">
 									</a>
 
 									<div class="size-215 flex-col-t p-t-8">
-										<a href="#" class="stext-116 cl8 hov-cl1 trans-04">
-											White Shirt With Pleat Detail Back
+										<a href="{{ url('/blogs/' . $random->slug) }}" class="stext-116 cl8 hov-cl1 trans-04">
+											{{$random->title}}
 										</a>
 
 										<span class="stext-116 cl6 p-t-20">
-											$19.00
+                                        @php
+                                            $publishedAt = \Carbon\Carbon::parse($random->published_at);
+                                        @endphp
+                                        {{ $publishedAt->format('d M Y') }}
 										</span>
 									</div>
 								</li>
-
-								<li class="flex-w flex-t p-b-30">
-									<a href="#" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
-										<img src="images/product-min-02.jpg" alt="PRODUCT">
-									</a>
-
-									<div class="size-215 flex-col-t p-t-8">
-										<a href="#" class="stext-116 cl8 hov-cl1 trans-04">
-											Converse All Star Hi Black Canvas
-										</a>
-
-										<span class="stext-116 cl6 p-t-20">
-											$39.00
-										</span>
-									</div>
-								</li>
-
-								<li class="flex-w flex-t p-b-30">
-									<a href="#" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
-										<img src="images/product-min-03.jpg" alt="PRODUCT">
-									</a>
-
-									<div class="size-215 flex-col-t p-t-8">
-										<a href="#" class="stext-116 cl8 hov-cl1 trans-04">
-											Nixon Porter Leather Watch In Tan
-										</a>
-
-										<span class="stext-116 cl6 p-t-20">
-											$17.00
-										</span>
-									</div>
-								</li>
+                            @endforeach
 							</ul>
 						</div>
 

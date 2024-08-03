@@ -9,9 +9,11 @@
 					</div>
 
 					<div class="right-top-bar flex-w h-full">
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							My Account
-						</a>
+                        @if (Auth::check())
+                        <a class="flex-c-m trans-04 p-lr-25"> {{ Auth::user()->name }}</a>
+                        @else
+                            <a class="flex-c-m trans-04 p-lr-25" href="{{ route('login') }}">Login</a>
+                        @endif
 					</div>
 				</div>
 			</div>
