@@ -74,7 +74,6 @@ it('can update an existing post', function () {
         'content' => 'Updated Content',
         'status' => 'draft',
         'category_id' => $category->id,
-        'tag' => 'Updated Tag',
     ]);
 
     $response->assertRedirect(route('posts.index'));

@@ -29,7 +29,6 @@ class PostFactory extends Factory
             'published_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'status' => $this->faker->randomElement(['published', 'draft', 'archived']),
             'category_id' => $this->faker->numberBetween(1, 10), // Ubah sesuai dengan range ID kategori yang valid
-            'tag' => $this->faker->words(5, true),
         ];
     }
 }
