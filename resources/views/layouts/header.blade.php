@@ -11,6 +11,17 @@
 					<div class="right-top-bar flex-w h-full">
                         @if (Auth::check())
                         <a class="flex-c-m trans-04 p-lr-25"> {{ Auth::user()->name }}</a>
+                         <!-- Authentication -->
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-responsive-nav-link :href="route('logout')"
+                                    class="flex-c-m trans-04 p-lr-25"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();" >
+                                {{ __('Log Out') }}
+                            </x-responsive-nav-link>
+                        </form>
                         @else
                             <a class="flex-c-m trans-04 p-lr-25" href="{{ route('login') }}">Login</a>
                         @endif
