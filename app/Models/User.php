@@ -10,7 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmail;
 
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
+// class User extends Authenticatable implements MustVerifyEmail
 {
     const ROLE_ADMIN = 'admin';
     const ROLE_USER = 'user';
