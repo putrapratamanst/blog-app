@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,7 @@ Route::get('/',[BlogController::class, 'index']);
 Route::get('/dashboard',[PostController::class, 'index'])->middleware(['auth', 'verified','role:admin'])->name('dashboard');
 Route::resource('posts', PostController::class)->middleware(['auth','role:admin']);
 Route::resource('blogs', BlogController::class);
+Route::resource('comments', CommentController::class)->middleware(['auth','role:user']);;
 Route::get('blogs/category/{id}', [BlogController::class, 'showCategory'])->name('blogs.category');
 
 

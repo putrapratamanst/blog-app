@@ -59,30 +59,24 @@
         Leave a Comment
     </h5>
 
-    <p class="stext-107 cl6 p-b-40">
-        Your email address will not be published. Required fields are marked *
-    </p>
-
-    <form>
+   
+    @if (Auth::check())
+    <form action="{{ route('comments.store') }}" method="POST">
+        @csrf
+        <input type="hidden" name="post_id" value="{{ $post->id }}">
+        <input type="hidden" name="slug" value="{{ $post->slug }}">
         <div class="bor19 m-b-20">
-            <textarea class="stext-111 cl2 plh3 size-124 p-lr-18 p-tb-15" name="cmt" placeholder="Comment..."></textarea>
+            <textarea class="stext-111 cl2 plh3 size-124 p-lr-18 p-tb-15" name="comment" placeholder="Comment..."></textarea>
         </div>
 
-        <div class="bor19 size-218 m-b-20">
-            <input class="stext-111 cl2 plh3 size-116 p-lr-18" type="text" name="name" placeholder="Name *">
-        </div>
-
-        <div class="bor19 size-218 m-b-20">
-            <input class="stext-111 cl2 plh3 size-116 p-lr-18" type="text" name="email" placeholder="Email *">
-        </div>
-
-        <div class="bor19 size-218 m-b-30">
-            <input class="stext-111 cl2 plh3 size-116 p-lr-18" type="text" name="web" placeholder="Website">
-        </div>
-
-        <button class="flex-c-m stext-101 cl0 size-125 bg3 bor2 hov-btn3 p-lr-15 trans-04">
+        <button type="submit" class="flex-c-m stext-101 cl0 size-125 bg3 bor2 hov-btn3 p-lr-15 trans-04">
             Post Comment
         </button>
     </form>
+    @else
+    <p class="stext-107 cl6 p-b-40">
+        Please login if you want to submit comment
+    </p>
+    @endif
 </div>
 @endsection
