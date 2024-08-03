@@ -10,9 +10,13 @@ class Comment extends Model
     use HasFactory;
     protected $fillable = ['post_id', 'author_id', 'comment'];
 
-    // Relasi ke model Post
     public function post()
     {
         return $this->belongsTo(Post::class);
     }
+
+     public function author()
+     {
+         return $this->belongsTo(User::class,'author_id');
+     }
 }

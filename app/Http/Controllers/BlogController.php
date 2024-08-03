@@ -25,7 +25,11 @@ class BlogController extends Controller{
     public function show($slug)
     {
         $post = $this->postService->getPostBySlug($slug);
-        $post->load('category');
+        $post->load('comments.author'); // Load comments relationship with user
+        $post->load('category'); // Load category relationship  
+        $post->load(['comments' => function ($query) { // Load comments relationship
+            $query->orderBy('created_at', 'desc');
+        }]);
         return view('blogs.show', compact('post'));
     }
 

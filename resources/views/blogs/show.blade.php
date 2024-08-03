@@ -66,17 +66,30 @@
         <input type="hidden" name="post_id" value="{{ $post->id }}">
         <input type="hidden" name="slug" value="{{ $post->slug }}">
         <div class="bor19 m-b-20">
-            <textarea class="stext-111 cl2 plh3 size-124 p-lr-18 p-tb-15" name="comment" placeholder="Comment..."></textarea>
+            <textarea class="stext-111 cl2 plh3 size-124 p-lr-18 p-tb-15" name="comment" placeholder="Comment..." required></textarea>
         </div>
 
         <button type="submit" class="flex-c-m stext-101 cl0 size-125 bg3 bor2 hov-btn3 p-lr-15 trans-04">
             Post Comment
         </button>
     </form>
+    <hr>
     @else
     <p class="stext-107 cl6 p-b-40">
         Please login if you want to submit comment
     </p>
     @endif
+    @forelse ($post->comments as $comment)
+        <div class="comment mb-4 p-3 border rounded" id="comments-section">
+            <div class="d-flex justify-content-between mb-2">
+                <strong>{{ $comment->author->name }}</strong>
+                <small class="text-muted">{{ $comment->created_at->format('F j, Y \a\t g:i A') }}</small>
+            </div>
+            <p>{{ $comment->comment }}</p>
+        </div>
+    @empty
+        <p>No comments yet.</p>
+    @endforelse
 </div>
+
 @endsection

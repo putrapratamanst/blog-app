@@ -31,6 +31,7 @@ class CommentController extends Controller
         ]);
 
         return redirect()->route('blogs.show', ['blog' => $request->input('slug')])
-        ->with('success', 'Comment created successfully');
+        ->with('success', 'Comment created successfully')
+        ->header('Location', url()->route('blogs.show', ['blog' => $request->input('slug')]) . '#comments-section');
     }
 }
