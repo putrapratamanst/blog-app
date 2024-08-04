@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Exception;
 
 class PostController extends Controller
 {
@@ -49,8 +50,15 @@ class PostController extends Controller
         ]);
 
         // Handle image upload
-        $imagePath = $request->file('image')->store('uploads', 'public');
-
+        // $imagePath = $request->file('image')->store('uploads', 'public');
+        try {
+            $imagePath = $request->file('image')->store('uploads', 'public');
+            // Handle the rest of your logic here (e.g., save the path to the database)
+            return redirect()->back()->with('success', 'Image uploaded successfully!');
+        } catch (Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['image' => 'Failed to upload image: ' . $e->getMessage()]);
+        }
         // Generate slug from title
         $slug = Str::slug($request->input('title'));
 
@@ -95,7 +103,15 @@ class PostController extends Controller
 
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('uploads', 'public');
+            // $imagePath = $request->file('image')->store('uploads', 'public');
+            try {
+                $imagePath = $request->file('image')->store('uploads', 'public');
+                // Handle the rest of your logic here (e.g., save the path to the database)
+                return redirect()->back()->with('success', 'Image uploaded successfully!');
+            } catch (Exception $e) {
+                dd($e->getMessage());
+                return redirect()->back()->withErrors(['image' => 'Failed to upload image: ' . $e->getMessage()]);
+            }
             $data['image'] = $imagePath;
         }
 
