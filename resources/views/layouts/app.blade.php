@@ -36,7 +36,7 @@
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <!-- Include DataTables JS -->
             <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-            <script src="{{ mix('js/app.js') }}"></script>
+            <script src="/js/app.js/"></script>
             @stack('scripts')
         </div>
     </body>
