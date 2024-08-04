@@ -1,10 +1,11 @@
 {
     "private": true,
     "scripts": {
-        "dev": "vite",
+        "dev": "npm run development",
+        "development": "mix",
+        "production": "mix --production",
+        "heroku-postbuild": "npm run production",
         "build": "vite build",
-        "heroku-postbuild": "npm run build",
-        "production": "npm run build",
         "start": "serve -s dist"
     },
     "dependencies": {
